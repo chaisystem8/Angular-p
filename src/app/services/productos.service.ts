@@ -8,16 +8,18 @@ import { Producto } from '../interfaces/producto.interface';
 export class ProductosService {
 
   loading = true;
+  productos: Producto[] = [];
 
   constructor( private http:HttpClient) {
     this.cargarProductos();
   }
 
-  private cargarProductos(){
-    this.http.get('https://angular-html-30756-default-rtdb.firebaseio.com/productos_idx.json')
-    .subscribe( (productos) => {
-      console.log(productos)
-      this.loading = false
-    });
+  private cargarProductos() {
+    this.http.get<Producto[]>('https://angular-html-30756-default-rtdb.firebaseio.com/productos_idx.json')
+      .subscribe((resp: Producto[]) => {
+        this.loading = false;
+        this.productos = resp;
+        console.log(this.productos);
+      });
   }
 }

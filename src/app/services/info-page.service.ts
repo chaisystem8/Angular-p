@@ -9,15 +9,25 @@ export class InfoPageService {
 
   info: InfoPage = {};
   load = false;
+  team: any[] = [];
 
   constructor( private http:HttpClient) { 
-    console.log("info pagina cargando")
-    //leer archivo json
+    this.cargarInfo();
+    this.cargarEquipo();
+  }
+
+  private cargarInfo(){
     this.http.get('assets/data/data-page.json')
       .subscribe((resp: InfoPage) => {
         this.load = true;
-        this.info = resp
-        console.log(this.info)
+        this.info = resp        
       });
+  }
+  private cargarEquipo(){
+    this.http.get('https://angular-html-30756-default-rtdb.firebaseio.com/team.json')
+    .subscribe((resp: any) => {
+      console.log(resp)
+      this.team = resp;
+    })
   }
 }

@@ -26,7 +26,6 @@ export class InfoPageService {
   private cargarEquipo(){
     this.http.get('https://angular-html-30756-default-rtdb.firebaseio.com/team.json')
     .subscribe((resp: any) => {
-      console.log(resp)
       this.team = resp;
     })
   }

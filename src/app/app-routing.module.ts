@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash:true})], // useHash se utiliza cuando no se puede modificar el htaccess
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

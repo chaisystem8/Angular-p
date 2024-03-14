@@ -18,11 +18,16 @@ export class ProductosService {
   }
 
   private cargarProductos() {
-    this.http.get<Producto[]>('https://angular-html-30756-default-rtdb.firebaseio.com/productos_idx.json')
+
+    return new Promise( (resolve, reject) => {
+      this.http.get<Producto[]>('https://angular-html-30756-default-rtdb.firebaseio.com/productos_idx.json')
       .subscribe((resp: Producto[]) => {
         this.loading = false;
-        this.productos = resp;
+        this.productos = resp;        
       });
+    });
+
+    
   }
 
   getProducto( id: string ) {
@@ -32,10 +37,29 @@ export class ProductosService {
   }
 
   buscarProducto(termino: string){
-    this.productosFiltrado = this.productos.filter(producto => {
-      return true
+
+    if(this.productos.length === 0 ){
+      this.cargarProductos().then( ()=> {
+        // FILTRO
+        this.filtrarProductos(termino)
+      });
+    }else{
+        // FILTRO
+        this.filtrarProductos(termino)
+    }         
+  }
+
+  private filtrarProductos(termino: string){
+    this.productosFiltrado = []
+    termino = termino.toLocaleLowerCase();
+    this.productos.forEach(prod => {
+
+      const tituloLower = prod.titulo.toLocaleLowerCase();
+
+      if(prod.categoria.indexOf(termino) >= 0 || tituloLower.indexOf(termino) >=0 ){
+        this.productosFiltrado.push(prod)
+      }
     });
 
-    console.log( this.productosFiltrado);
   }
 }

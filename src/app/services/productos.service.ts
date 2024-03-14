@@ -30,10 +30,14 @@ export class ProductosService {
     
   }
 
-  getProducto( id: string ) {
+  // getProducto( id: string ) {
 
-    return this.http.get(`https://angular-html-25cf9.firebaseio.com/productos/${ id }.json`);
+  //   return this.http.get(`https://angular-html-25cf9.firebaseio.com/productos/${ id }.json`);
 
+  // }
+
+  getProducto(id: string): Observable<ProductoDescripcion> {
+    return this.http.get<ProductoDescripcion>(`https://angular-html-30756-default-rtdb.firebaseio.com/productos/${id}.json`);
   }
 
   buscarProducto(termino: string){
